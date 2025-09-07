@@ -24,7 +24,8 @@ $ npm i -S @zoontek/react-native-navigation-bar
 $ yarn add @zoontek/react-native-navigation-bar
 ```
 
-This library requires React Native 0.81+ or Expo 54+ with edge-to-edge enabled. To turn it on, set `edgeToEdgeEnabled` to `true` in your project's `gradle.properties` file (this step is not required for Expo, as it is enabled by default).
+> [!IMPORTANT]
+> This library requires React Native 0.81+ or Expo 54+ with edge-to-edge enabled. To turn it on, set `edgeToEdgeEnabled` to `true` in your project's `gradle.properties` file (this step is not required for Expo, as it is enabled by default).
 
 ```ruby
 edgeToEdgeEnabled=true # set this to true
@@ -37,7 +38,7 @@ edgeToEdgeEnabled=true # set this to true
 A React component to control the Android button navigation bar (with back / home / recents buttons).
 
 > [!NOTE]
-> This component has no effect on other platforms, or with gesture navigation.
+> This component has no effect on other platforms or when gesture navigation is used.
 
 ```tsx
 import { NavigationBar } from "@zoontek/react-native-navigation-bare";
