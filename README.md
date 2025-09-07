@@ -6,7 +6,7 @@ React Native `StatusBar` long-lost twin: A component to control your Android app
 [![npm version](https://img.shields.io/npm/v/@zoontek/react-native-navigation-bar.svg?style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
 [![npm downloads](https://img.shields.io/npm/dt/@zoontek/react-native-navigation-bar.svg?label=downloads&style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
 
-<img width="240" src="./docs/logo.svg" alt="Logo">
+<img width="200" src="./docs/logo.svg" alt="Logo">
 
 ## Credits
 
