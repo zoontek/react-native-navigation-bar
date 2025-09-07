@@ -1,10 +1,9 @@
 package com.zoontek.rnnavigationbar
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
-
-import android.graphics.Color
 import android.util.TypedValue
 
 import androidx.core.view.WindowInsetsCompat
@@ -13,6 +12,15 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.facebook.common.logging.FLog
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.common.ReactConstants
+
+// The light scrim color used in the platform API 29+
+// https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/com/android/internal/policy/DecorView.java;drc=6ef0f022c333385dba2c294e35b8de544455bf19;l=142
+internal val LightNavigationBarColor = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
+
+// The dark scrim color used in the platform.
+// https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/res/res/color/system_bar_background_semi_transparent.xml
+// https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/res/remote_color_resources_res/values/colors.xml;l=67
+internal val DarkNavigationBarColor = Color.argb(0x80, 0x1b, 0x1b, 0x1b)
 
 object NavigationBarModuleImpl {
   const val NAME = "RNNavigationBar"
@@ -34,18 +42,25 @@ object NavigationBarModuleImpl {
     val activity = reactContext?.currentActivity
       ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
 
-    if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      activity.runOnUiThread {
-        val window = activity.window
+    activity.runOnUiThread {
+      val window = activity.window
 
-        if (VERSION.SDK_INT >= VERSION_CODES.Q && isNavigationBarTransparent(activity)) {
-          window.isNavigationBarContrastEnforced = false
+      if (VERSION.SDK_INT >= VERSION_CODES.O) {
+        val light = style == "dark-content" // dark-content = light background
+        val transparent = isNavigationBarTransparent(activity)
+
+        if (VERSION.SDK_INT >= VERSION_CODES.Q) {
+          window.isNavigationBarContrastEnforced = !transparent
         }
 
-        window.navigationBarColor = Color.TRANSPARENT
+        window.navigationBarColor = when {
+          transparent -> Color.TRANSPARENT
+          light -> LightNavigationBarColor
+          else -> DarkNavigationBarColor
+        }
 
         WindowInsetsControllerCompat(window, window.decorView).run {
-          isAppearanceLightNavigationBars = style == "dark-content"
+          isAppearanceLightNavigationBars = light
         }
       }
     }
