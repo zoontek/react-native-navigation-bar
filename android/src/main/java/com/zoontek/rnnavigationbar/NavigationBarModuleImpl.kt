@@ -42,12 +42,11 @@ object NavigationBarModuleImpl {
     val activity = reactContext?.currentActivity
       ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
 
-    activity.runOnUiThread {
-      val window = activity.window
-
-      if (VERSION.SDK_INT >= VERSION_CODES.O) {
-        val transparent = isNavigationBarTransparent(activity)
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      activity.runOnUiThread {
         val light = style == "dark-content" // dark-content = light background
+        val transparent = isNavigationBarTransparent(activity)
+        val window = activity.window
 
         if (VERSION.SDK_INT >= VERSION_CODES.Q) {
           window.isNavigationBarContrastEnforced = !transparent
