@@ -2,9 +2,9 @@
 
 React Native [`StatusBar`](https://reactnative.dev/docs/statusbar) long-lost twin: A component to control your Android app's navigation bar.
 
-[![mit licence](https://img.shields.io/dub/l/vibe-d.svg?style=for-the-badge)](https://github.com/zoontek/react-native-navigation-bar/blob/main/LICENSE)
-[![npm version](https://img.shields.io/npm/v/@zoontek/react-native-navigation-bar.svg?style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
-[![npm downloads](https://img.shields.io/npm/dt/@zoontek/react-native-navigation-bar.svg?label=downloads&style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
+[![mit licence](https://img.shields.io/dub/l/vibe-d?style=for-the-badge)](https://github.com/zoontek/react-native-navigation-bar/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@zoontek/react-native-navigation-bar?style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
+[![npm downloads](https://img.shields.io/npm/dt/@zoontek/react-native-navigation-bar?label=downloads&style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
 
 <img width="210" src="./docs/logo.svg" alt="Logo">
 
