@@ -17,7 +17,10 @@ function mergeEntriesStack(entriesStack: NavigationBarProps[]) {
       }
       return prev;
     },
-    { barStyle: undefined, hidden: undefined },
+    {
+      barStyle: undefined,
+      hidden: undefined,
+    },
   );
 }
 
@@ -38,7 +41,10 @@ let updateImmediate: NodeJS.Immediate | null = null;
 const currentValues: {
   barStyle: NavigationBarStyle | undefined;
   hidden: boolean | undefined;
-} = { barStyle: undefined, hidden: undefined };
+} = {
+  barStyle: undefined,
+  hidden: undefined,
+};
 
 function setStyle(style: NavigationBarStyle | undefined) {
   if (style !== currentValues.barStyle) {
