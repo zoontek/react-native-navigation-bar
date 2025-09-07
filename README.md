@@ -24,9 +24,9 @@ It is supporting the **latest version**, and the **two previous minor series**.
 ## Installation
 
 ```bash
-$ npm i -S react-native-edge-to-edge
+$ npm i -S @zoontek/react-native-navigation-bar
 # --- or ---
-$ yarn add react-native-edge-to-edge
+$ yarn add @zoontek/react-native-navigation-bar
 ```
 
 ## API
