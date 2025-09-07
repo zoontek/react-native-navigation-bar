@@ -29,6 +29,10 @@
     "status-bar",
     "system-bar"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "clean": "rm -rf dist",
     "format": "prettier '**/*' -u -w",
