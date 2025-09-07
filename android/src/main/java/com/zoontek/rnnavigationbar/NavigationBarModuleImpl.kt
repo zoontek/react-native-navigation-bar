@@ -46,8 +46,8 @@ object NavigationBarModuleImpl {
       val window = activity.window
 
       if (VERSION.SDK_INT >= VERSION_CODES.O) {
-        val light = style == "dark-content" // dark-content = light background
         val transparent = isNavigationBarTransparent(activity)
+        val light = style == "dark-content" // dark-content = light background
 
         if (VERSION.SDK_INT >= VERSION_CODES.Q) {
           window.isNavigationBarContrastEnforced = !transparent
