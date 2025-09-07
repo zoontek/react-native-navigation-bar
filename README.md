@@ -45,7 +45,7 @@ Edit your `android/app/src/main/res/values/styles.xml` file to inherit from one 
 <resources>
   <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
     <!-- … -->
-    <!-- enable a contrasting navigation bar background (optional) -->
+    <!-- enforce a contrasting navigation bar background (optional) -->
     <item name="enforceNavigationBarContrast">true</item>
   </style>
 </resources>
