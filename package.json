@@ -1,6 +1,6 @@
 {
   "name": "@zoontek/react-native-navigation-bar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "description": "React Native StatusBar long-lost twin. A component to control your Android app's navigation bar.",
   "author": "Mathieu Acthernoene <zoontek@gmail.com>",
