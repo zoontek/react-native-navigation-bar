@@ -1,0 +1,75 @@
+{
+  "name": "@zoontek/react-native-navigation-bar",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "React Native StatusBar long-lost twin. A component to control your Android app's navigation bar.",
+  "author": "Mathieu Acthernoene <zoontek@gmail.com>",
+  "homepage": "https://github.com/zoontek/react-native-navigation-bar",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/module/index.js",
+  "types": "dist/typescript/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "android",
+    "!android/build",
+    "!android/.cxx",
+    "!android/.gradle"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zoontek/react-native-navigation-bar.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "navigation-bar",
+    "edge-to-edge",
+    "status-bar",
+    "system-bar"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "format": "prettier '**/*' -u -w",
+    "typecheck": "tsc --noEmit",
+    "build": "yarn clean && bob build && rm -rf dist/*/package.json",
+    "prepack": "prettier '**/*' -u -c && yarn typecheck && yarn build"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "dist",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-organize-imports"
+    ]
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@types/react": "^19.1.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-organize-imports": "^4.2.0",
+    "react": "19.1.0",
+    "react-native": "0.81.1",
+    "react-native-builder-bob": "^0.40.13",
+    "typescript": "^5.9.2"
+  },
+  "codegenConfig": {
+    "name": "RNNavigationBar",
+    "type": "modules",
+    "jsSrcsDir": "./src/specs",
+    "android": {
+      "javaPackageName": "com.zoontek.rnnavigationbar"
+    }
+  }
+}

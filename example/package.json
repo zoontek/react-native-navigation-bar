@@ -1,0 +1,35 @@
+{
+  "name": "@zoontek/react-native-navigation-bar-example",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "clean": "rm -rf ./node_modules",
+    "preinstall": "cd .. && yarn && yarn build && cd example",
+    "start": "react-native start",
+    "reinstall": "yarn clean && yarn install"
+  },
+  "dependencies": {
+    "@react-native-segmented-control/segmented-control": "2.5.7",
+    "@zoontek/react-native-navigation-bar": "link:../",
+    "react": "19.1.0",
+    "react-native": "0.81.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/runtime": "^7.25.0",
+    "@react-native-community/cli": "20.0.0",
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@react-native/babel-preset": "0.81.1",
+    "@react-native/metro-config": "0.81.1",
+    "@types/react": "^19.1.0",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "typescript": "^5.9.2"
+  }
+}
