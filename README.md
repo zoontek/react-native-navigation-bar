@@ -105,7 +105,7 @@ NavigationBar.setHidden(style /*: boolean */);
 
 ## Troubleshooting 🤔
 
-### The bar style blinks at app start
+#### The bar style blinks at app start
 
 Since the navigation bar is set at runtime rather than through themes, you may notice a brief style change at startup. This can be avoided by [adding a splash screen](https://github.com/zoontek/react-native-bootsplash).
 

@@ -11,6 +11,7 @@
   "files": [
     "dist",
     "src",
+    "app.plugin.js",
     "android",
     "!android/build",
     "!android/.cxx",
@@ -56,6 +57,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
+    "@expo/config-plugins": "^10.1.2",
     "@types/react": "^19.1.0",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.2.0",
