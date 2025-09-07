@@ -35,7 +35,7 @@ edgeToEdgeEnabled=true # 👈 set this to true
 
 ### Transparency
 
-Compared to [`react-native-edge-to-edge`](https://github.com/zoontek/react-native-edge-to-edge), this library uses React Native [`StatusBar`](https://reactnative.dev/docs/statusbar) API and its defaults: the navigation bar is transparent with a `light-content` bar style. To enforce a contrasting (semi-opaque) button navigation bar, set the `enforceNavigationBarContrast` option to `true`.
+Compared to [`react-native-edge-to-edge`](https://github.com/zoontek/react-native-edge-to-edge), this library adopts React Native [`StatusBar`](https://reactnative.dev/docs/statusbar) API and its defaults: the navigation bar is transparent with a `light-content` bar style. To enforce a contrasting (semi-opaque) button navigation bar, set the `enforceNavigationBarContrast` option to `true`.
 
 #### React Native
 
