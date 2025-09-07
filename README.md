@@ -1,10 +1,20 @@
 # @zoontek/react-native-navigation-bar
 
-React Native `StatusBar` long-lost twin. A component to control your Android app's navigation bar.
+React Native `StatusBar` long-lost twin: A component to control your Android app's navigation bar.
 
 [![mit licence](https://img.shields.io/dub/l/vibe-d.svg?style=for-the-badge)](https://github.com/zoontek/react-native-navigation-bar/blob/main/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@zoontek/react-native-navigation-bar.svg?style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
 [![npm downloads](https://img.shields.io/npm/dt/@zoontek/react-native-navigation-bar.svg?label=downloads&style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
+
+<img width="240" src="./docs/logo.svg" alt="Logo">
+
+## Credits
+
+This project has been built and is maintained thanks to the support from [Expo](https://expo.dev).
+
+<a href="https://expo.io">
+  <img width="180" src="./docs/expo.svg" alt="Expo">
+</a>
 
 ## Support
 
