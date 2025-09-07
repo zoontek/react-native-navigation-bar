@@ -33,7 +33,10 @@ $ yarn add @zoontek/react-native-navigation-bar
 
 ### NavigationBar
 
-TODO
+A React component to control the Android button navigation bar (the bottom bar with back / home / recents buttons).
+
+> [!NOTE]
+> This component has no effect on other platforms, or with gesture navigation.
 
 ```tsx
 import { NavigationBar } from "@zoontek/react-native-navigation-bare";
@@ -41,10 +44,8 @@ import { NavigationBar } from "@zoontek/react-native-navigation-bare";
 type NavigationBarStyle = "default" | "light-content" | "dark-content";
 
 type NavigationBarProps = {
-  // set the color of the navigation bar content
-  barStyle?: NavigationBarStyle;
-  // hide the navigation bar (has no effect on iOS)
-  hidden?: boolean;
+  barStyle?: NavigationBarStyle; // set the color of the navigation bar content
+  hidden?: boolean; // hide the navigation bar
 };
 
 const App = () => (
