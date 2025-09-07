@@ -1,12 +1,12 @@
 # @zoontek/react-native-navigation-bar
 
-React Native `StatusBar` long-lost twin: A component to control your Android app's navigation bar.
+React Native [`StatusBar`](https://reactnative.dev/docs/statusbar) long-lost twin: A component to control your Android app's navigation bar.
 
 [![mit licence](https://img.shields.io/dub/l/vibe-d.svg?style=for-the-badge)](https://github.com/zoontek/react-native-navigation-bar/blob/main/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@zoontek/react-native-navigation-bar.svg?style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
 [![npm downloads](https://img.shields.io/npm/dt/@zoontek/react-native-navigation-bar.svg?label=downloads&style=for-the-badge)](https://www.npmjs.com/package/@zoontek/react-native-navigation-bar)
 
-<img width="200" src="./docs/logo.svg" alt="Logo">
+<img width="210" src="./docs/logo.svg" alt="Logo">
 
 ## Credits
 
@@ -16,11 +16,6 @@ This project has been built and is maintained thanks to the support from [Expo](
   <img width="180" src="./docs/expo.svg" alt="Expo">
 </a>
 
-## Support
-
-This library follows the React Native [releases support policy](https://github.com/reactwg/react-native-releases/blob/main/docs/support.md).<br>
-It is supporting the **latest version**, and the **two previous minor series**.
-
 ## Installation
 
 ```bash
@@ -29,11 +24,17 @@ $ npm i -S @zoontek/react-native-navigation-bar
 $ yarn add @zoontek/react-native-navigation-bar
 ```
 
+This library requires React Native 0.81+ or Expo 54+ with edge-to-edge enabled. To turn it on, set `edgeToEdgeEnabled` to `true` in your project's `gradle.properties` file (this step is not required for Expo, as it is enabled by default).
+
+```ruby
+edgeToEdgeEnabled=true # set this to true
+```
+
 ## API
 
 ### NavigationBar
 
-A React component to control the Android button navigation bar (the bottom bar with back / home / recents buttons).
+A React component to control the Android button navigation bar (with back / home / recents buttons).
 
 > [!NOTE]
 > This component has no effect on other platforms, or with gesture navigation.
