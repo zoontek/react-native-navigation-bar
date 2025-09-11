@@ -78,7 +78,7 @@ A React component to control the Android button navigation bar (with back / home
 > This component has no effect on other platforms or when gesture navigation is used.
 
 ```tsx
-import { NavigationBar } from "@zoontek/react-native-navigation-bare";
+import { NavigationBar } from "@zoontek/react-native-navigation-bar";
 
 type NavigationBarStyle = "default" | "light-content" | "dark-content";
 
@@ -148,4 +148,4 @@ Since the navigation bar is set at runtime rather than through themes, you may n
 
 #### The bar style behavior is erratic
 
-There's currently [an open issue](https://issuetracker.google.com/issues/346386744) with the Android 15 emulator image regarding the navigation bar style when it is is fully transparent. This issue does not occur on physical devices.
+There's currently [an open issue](https://issuetracker.google.com/issues/346386744) with the Android 15 emulator image regarding the navigation bar style when it is fully transparent. This issue does not occur on physical devices.
