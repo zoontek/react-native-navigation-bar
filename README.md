@@ -124,12 +124,12 @@ const entry: NavigationBarProps = NavigationBar.replaceStackEntry(
 );
 ```
 
-#### NavigationBar.setStyle
+#### NavigationBar.setBarStyle
 
 Set the navigation bar style.
 
 ```ts
-NavigationBar.setStyle(style /*: NavigationBarStyle */);
+NavigationBar.setBarStyle(style /*: NavigationBarStyle */);
 ```
 
 #### NavigationBar.setHidden
