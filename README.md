@@ -39,7 +39,7 @@ Compared to [`react-native-edge-to-edge`](https://github.com/zoontek/react-nativ
 
 #### React Native
 
-Edit your `android/app/src/main/res/values/styles.xml` file to inherit from one of the provided themes:
+Edit your `android/app/src/main/res/values/styles.xml` file to add the `enforceNavigationBarContrast` attribute:
 
 ```xml
 <resources>
