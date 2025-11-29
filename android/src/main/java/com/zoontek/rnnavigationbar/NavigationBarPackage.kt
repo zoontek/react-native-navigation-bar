@@ -23,7 +23,6 @@ class NavigationBarPackage : BaseReactPackage() {
         NavigationBarModuleImpl.NAME,
         false,
         true,
-        true,
         false,
         isTurboModule
       )
