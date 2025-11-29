@@ -87,7 +87,9 @@ export const App = () => {
 
   useEffect(() => {
     const value = SCHEMES[schemeIndex];
-    const scheme = value === "light" || value === "dark" ? value : "unspecified";
+    const scheme =
+      value === "light" || value === "dark" ? value : "unspecified";
+
     Appearance.setColorScheme(scheme);
   }, [schemeIndex]);
 
