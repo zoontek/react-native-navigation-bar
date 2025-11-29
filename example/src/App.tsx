@@ -94,6 +94,7 @@ export const App = () => {
   return (
     <View style={[styles.container, dark && styles.darkContainer]}>
       <StatusBar
+        animated={true}
         barStyle={STYLES[statusBarStyleIndex]}
         hidden={statusBarHidden}
       />
