@@ -4,13 +4,15 @@ import {
   withAndroidStyles,
 } from "@expo/config-plugins";
 
-type AndroidProps = {
-  enforceNavigationBarContrast?: boolean;
+const PACKAGE_NAME = "@zoontek/react-native-navigation-bar";
+
+type NavigationBarPluginConfig = {
+  android?: {
+    enforceNavigationBarContrast?: boolean;
+  };
 };
 
-type Props = { android?: AndroidProps } | undefined;
-
-const withAndroidNavigationBarStyles: ConfigPlugin<Props> = (
+const plugin: ConfigPlugin<NavigationBarPluginConfig | undefined> = (
   config,
   props = {},
 ) => {
@@ -45,7 +47,8 @@ const withAndroidNavigationBarStyles: ConfigPlugin<Props> = (
   });
 };
 
-export default createRunOncePlugin(
-  withAndroidNavigationBarStyles,
-  "zoontek/react-native-navigation-bar",
-);
+export const withNavigationBar = createRunOncePlugin(plugin, PACKAGE_NAME);
+
+export default (
+  config: NavigationBarPluginConfig,
+): [typeof PACKAGE_NAME, NavigationBarPluginConfig] => [PACKAGE_NAME, config];

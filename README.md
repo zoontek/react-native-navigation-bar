@@ -53,7 +53,28 @@ Edit your `android/app/src/main/res/values/styles.xml` file to add the `enforceN
 
 #### Expo
 
-Add the library plugin to your `app.json` configuration file and [create a new build](https://docs.expo.dev/develop/development-builds/create-a-build) 👷:
+Add the library plugin to your app configuration file and [create a new build](https://docs.expo.dev/develop/development-builds/create-a-build) 👷:
+
+<details open>
+<summary><strong>Dynamic configuration (app.config.js, app.config.ts)</strong></summary>
+
+```ts
+import type { ConfigContext, ExpoConfig } from "expo/config";
+import navigationBar from "@zoontek/react-native-navigation-bar/expo"; // use `require` in app.config.js
+
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  plugins: [
+    navigationBar({
+      android: { enforceNavigationBarContrast: true },
+    }),
+  ],
+});
+```
+
+</details>
+
+<details>
+<summary><strong>Static configuration (app.json)</strong></summary>
 
 ```json
 {
@@ -67,6 +88,8 @@ Add the library plugin to your `app.json` configuration file and [create a new b
   }
 }
 ```
+
+</details>
 
 ## API
 
