@@ -1,6 +1,7 @@
 package com.zoontek.rnnavigationbar
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
@@ -25,17 +26,34 @@ internal val DarkNavigationBarColor = Color.argb(0x80, 0x1b, 0x1b, 0x1b)
 object NavigationBarModuleImpl {
   const val NAME = "RNNavigationBar"
 
-  private const val NO_ACTIVITY_ERROR = "$NAME: Ignored navigation bar change, current activity is null."
-  private val boolAttributes = mutableMapOf<Int, Boolean>()
+  private const val NO_ACTIVITY_ERROR =
+    "$NAME: Ignored navigation bar change, current activity is null."
 
-  private fun resolveBoolAttribute(activity: Activity, resId: Int): Boolean =
-    boolAttributes.getOrPut(resId) {
-      val value = TypedValue()
-      activity.theme.resolveAttribute(resId, value, true) && value.data != 0
+  private fun resolveBoolAttribute(activity: Activity, resId: Int): Boolean? {
+    val value = TypedValue()
+
+    return if (activity.theme.resolveAttribute(resId, value, true)) {
+      value.data != 0
+    } else {
+      null
     }
+  }
 
-  private fun isNavigationBarTransparent(activity: Activity): Boolean =
-    !resolveBoolAttribute(activity, R.attr.enforceNavigationBarContrast)
+  private fun isLightMode(activity: Activity): Boolean =
+    activity.resources.configuration.uiMode and
+      Configuration.UI_MODE_NIGHT_MASK != Configuration.UI_MODE_NIGHT_YES
+
+  private fun getInitialStyle(activity: Activity): String {
+    val lightNavBar = if (VERSION.SDK_INT >= VERSION_CODES.O_MR1) {
+      resolveBoolAttribute(activity, android.R.attr.windowLightNavigationBar)
+    } else null
+
+    val light = lightNavBar ?: isLightMode(activity)
+    return if (light) "dark-content" else "light-content"
+  }
+
+  private fun isTransparent(activity: Activity): Boolean =
+    !(resolveBoolAttribute(activity, R.attr.enforceNavigationBarContrast) ?: false)
 
   @Suppress("DEPRECATION")
   fun setStyle(reactContext: ReactApplicationContext?, style: String) {
@@ -45,7 +63,7 @@ object NavigationBarModuleImpl {
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
       activity.runOnUiThread {
         val light = style == "dark-content" // dark-content = light background
-        val transparent = isNavigationBarTransparent(activity)
+        val transparent = isTransparent(activity)
         val window = activity.window
 
         if (VERSION.SDK_INT >= VERSION_CODES.Q) {
@@ -65,10 +83,11 @@ object NavigationBarModuleImpl {
     }
   }
 
-  // copy StatusBar behavior (default is light-content)
-  // https://github.com/facebook/react-native/blob/v0.81.1/packages/react-native/ReactAndroid/src/main/java/com/facebook/react/modules/statusbar/StatusBarModule.kt#L131
   fun initialize(reactContext: ReactApplicationContext?) {
-    setStyle(reactContext, "light-content")
+    val activity = reactContext?.currentActivity
+      ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
+
+    setStyle(reactContext, getInitialStyle(activity))
   }
 
   fun setHidden(reactContext: ReactApplicationContext?, hidden: Boolean) {

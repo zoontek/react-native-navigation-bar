@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "esnext",
     "lib": ["ES2017"],
     "jsx": "react-native",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
+    "types": ["node"],
 
     "allowJs": false,
     "strict": true,
+    "noEmit": true,
     "declaration": true,
     "sourceMap": true,
     "stripInternal": true,
