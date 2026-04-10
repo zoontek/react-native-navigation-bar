@@ -44,12 +44,14 @@ object NavigationBarModuleImpl {
       Configuration.UI_MODE_NIGHT_MASK != Configuration.UI_MODE_NIGHT_YES
 
   private fun getInitialStyle(activity: Activity): String {
-    val lightNavBar = if (VERSION.SDK_INT >= VERSION_CODES.O_MR1) {
+    val windowLightNavigationBar = if (VERSION.SDK_INT >= VERSION_CODES.O_MR1) {
       resolveBoolAttribute(activity, android.R.attr.windowLightNavigationBar)
     } else null
 
-    val light = lightNavBar ?: isLightMode(activity)
-    return if (light) "dark-content" else "light-content"
+    return when (windowLightNavigationBar ?: isLightMode(activity)) {
+      true -> "dark-content"
+      false -> "light-content"
+    }
   }
 
   private fun isTransparent(activity: Activity): Boolean =
