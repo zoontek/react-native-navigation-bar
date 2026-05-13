@@ -2,21 +2,22 @@ import { useEffect, useMemo, useRef } from "react";
 import NativeModule from "./specs/NativeNavigationBarModule";
 import type { NavigationBarProps, NavigationBarStyle } from "./types";
 
+// Matches built-in StatusBar defaultProps
+const defaultProps: Required<NavigationBarProps> = {
+  barStyle: "light-content",
+  hidden: false,
+};
+
 // Merges the entries stack
 function mergeEntriesStack(entriesStack: NavigationBarProps[]) {
   return entriesStack.reduce<{
     barStyle: NavigationBarStyle | undefined;
     hidden: boolean | undefined;
   }>(
-    (prev, cur) => {
-      for (const prop in cur) {
-        if (cur[prop as keyof NavigationBarProps] != null) {
-          // @ts-expect-error
-          prev[prop] = cur[prop];
-        }
-      }
-      return prev;
-    },
+    (prev, cur) => ({
+      barStyle: cur.barStyle ?? prev.barStyle,
+      hidden: cur.hidden ?? prev.hidden,
+    }),
     {
       barStyle: undefined,
       hidden: undefined,
@@ -46,23 +47,18 @@ const currentValues: {
   hidden: undefined,
 };
 
-function setStyle(style: NavigationBarStyle | undefined) {
-  if (style !== currentValues.barStyle) {
-    currentValues.barStyle = style;
-
-    if (NativeModule != null) {
-      NativeModule.setStyle(style ?? "default");
-    }
-  }
-}
-
 /**
  * Set the navigation bar style.
  *
  * @param style Navigation bar style to set.
  */
 function setBarStyle(style: NavigationBarStyle) {
-  setStyle(style);
+  defaultProps.barStyle = style;
+
+  if (style !== currentValues.barStyle) {
+    currentValues.barStyle = style;
+    NativeModule?.setStyle(style ?? "default");
+  }
 }
 
 /**
@@ -71,32 +67,35 @@ function setBarStyle(style: NavigationBarStyle) {
  * @param hidden Hide the navigation bar.
  */
 function setHidden(hidden: boolean) {
+  defaultProps.hidden = hidden;
+
   if (hidden !== currentValues.hidden) {
     currentValues.hidden = hidden;
-
-    if (NativeModule != null) {
-      NativeModule.setHidden(hidden);
-    }
+    NativeModule?.setHidden(hidden);
   }
 }
 
 // Updates the native navigation bar with the entries from the stack
 function updateEntriesStack() {
-  if (NativeModule != null) {
-    if (updateImmediate != null) {
-      clearImmediate(updateImmediate);
-    }
+  if (updateImmediate != null) {
+    clearImmediate(updateImmediate);
+  }
 
-    updateImmediate = setImmediate(() => {
+  updateImmediate = setImmediate(() => {
+    if (entriesStack.length === 0) {
+      setBarStyle(defaultProps.barStyle);
+      setHidden(defaultProps.hidden);
+    } else {
       const { barStyle, hidden } = mergeEntriesStack(entriesStack);
 
-      setStyle(barStyle);
-
+      if (barStyle != null) {
+        setBarStyle(barStyle);
+      }
       if (hidden != null) {
         setHidden(hidden);
       }
-    });
-  }
+    }
+  });
 }
 
 /**
