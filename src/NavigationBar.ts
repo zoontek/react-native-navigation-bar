@@ -9,8 +9,10 @@ const defaultProps: Required<NavigationBarProps> = {
 };
 
 // Merges the entries stack
-function mergeEntriesStack(entriesStack: NavigationBarProps[]) {
-  return entriesStack.reduce<{
+function mergeEntriesStack(
+  entriesStack: NavigationBarProps[],
+): NavigationBarProps {
+  const { barStyle, hidden } = entriesStack.reduce<{
     barStyle: NavigationBarStyle | undefined;
     hidden: boolean | undefined;
   }>(
@@ -23,6 +25,11 @@ function mergeEntriesStack(entriesStack: NavigationBarProps[]) {
       hidden: undefined,
     },
   );
+
+  return {
+    barStyle: hidden ? "light-content" : barStyle,
+    hidden,
+  };
 }
 
 // Returns an object to insert in the props stack from the props
