@@ -100,7 +100,7 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
         ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
 
     // isAppearanceLightNavigationBars is not available below Android O
-    if (VERSION.SDK_INT < VERSION_CODES.O) {
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
       val light = style == "dark-content" // dark-content = light background
       val transparent = isTransparent(activity)
 
