@@ -49,8 +49,13 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
     activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK !=
       Configuration.UI_MODE_NIGHT_YES
 
-  private fun isTransparent(activity: Activity): Boolean =
-    !(resolveBoolAttribute(activity, R.attr.enforceNavigationBarContrast) ?: false)
+  private fun isTransparent(activity: Activity): Boolean {
+    val resId =
+      if (VERSION.SDK_INT >= VERSION_CODES.Q) android.R.attr.enforceNavigationBarContrast
+      else R.attr.enforceNavigationBarContrastFallback
+
+    return !(resolveBoolAttribute(activity, resId) ?: false)
+  }
 
   @Suppress("DEPRECATION")
   override fun setStyle(style: String) {
