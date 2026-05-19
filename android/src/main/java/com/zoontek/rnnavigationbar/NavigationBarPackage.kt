@@ -9,7 +9,7 @@ import com.facebook.react.module.model.ReactModuleInfoProvider
 class NavigationBarPackage : BaseReactPackage() {
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return when (name) {
-      NavigationBarModuleImpl.NAME -> NavigationBarModule(reactContext)
+      NativeNavigationBarModuleSpec.NAME -> NavigationBarModule(reactContext)
       else -> null
     }
   }
@@ -17,16 +17,16 @@ class NavigationBarPackage : BaseReactPackage() {
   override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
     return ReactModuleInfoProvider {
       val moduleInfo = ReactModuleInfo(
-        NavigationBarModuleImpl.NAME,
-        NavigationBarModuleImpl.NAME,
+        NativeNavigationBarModuleSpec.NAME,
+        NativeNavigationBarModuleSpec.NAME,
         canOverrideExistingModule = false,
         needsEagerInit = true,
         isCxxModule = false,
-        isTurboModule = true
+        isTurboModule = true,
       )
 
       mapOf(
-        NavigationBarModuleImpl.NAME to moduleInfo
+        NativeNavigationBarModuleSpec.NAME to moduleInfo
       )
     }
   }
