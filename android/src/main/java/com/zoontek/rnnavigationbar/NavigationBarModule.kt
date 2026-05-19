@@ -42,8 +42,7 @@ internal fun Window.setNavigationBarStyle(light: Boolean, transparent: Boolean) 
       else -> DarkNavigationBarColor
     }
 
-  val controller = WindowInsetsControllerCompat(this, decorView)
-  controller.isAppearanceLightNavigationBars = light
+  WindowInsetsControllerCompat(this, decorView).apply { isAppearanceLightNavigationBars = light }
 }
 
 internal fun Window.setNavigationBarHidden(hidden: Boolean) {
@@ -134,9 +133,10 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
     activity.window?.let { activityWindow ->
       val controller = WindowCompat.getInsetsController(activityWindow, activityWindow.decorView)
       val insets = ViewCompat.getRootWindowInsets(activityWindow.decorView)
+      val light = controller.isAppearanceLightNavigationBars
       val visible = insets?.isVisible(WindowInsetsCompat.Type.navigationBars()) ?: true
 
-      window.setNavigationBarStyle(controller.isAppearanceLightNavigationBars, transparent)
+      window.setNavigationBarStyle(light, transparent)
       window.setNavigationBarHidden(!visible)
     }
   }
