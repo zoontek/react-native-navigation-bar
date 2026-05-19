@@ -17,7 +17,7 @@
     "@react-native-segmented-control/segmented-control": "2.5.7",
     "@zoontek/react-native-navigation-bar": "link:../",
     "react": "19.2.3",
-    "react-native": "0.84.0"
+    "react-native": "0.86.0-rc.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -26,10 +26,10 @@
     "@react-native-community/cli": "20.1.0",
     "@react-native-community/cli-platform-android": "20.1.0",
     "@react-native-community/cli-platform-ios": "20.1.0",
-    "@react-native/babel-preset": "0.84.0",
-    "@react-native/metro-config": "0.84.0",
+    "@react-native/babel-preset": "0.86.0-rc.1",
+    "@react-native/metro-config": "0.86.0-rc.1",
     "@types/react": "^19.2.0",
-    "babel-plugin-module-resolver": "^5.0.2",
-    "typescript": "^5.9.3"
+    "babel-plugin-module-resolver": "^5.0.3",
+    "typescript": "^6.0.3"
   }
 }
