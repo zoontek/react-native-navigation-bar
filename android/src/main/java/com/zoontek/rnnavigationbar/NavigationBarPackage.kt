@@ -16,15 +16,13 @@ class NavigationBarPackage : BaseReactPackage() {
 
   override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
     return ReactModuleInfoProvider {
-      val isTurboModule = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
-
       val moduleInfo = ReactModuleInfo(
         NavigationBarModuleImpl.NAME,
         NavigationBarModuleImpl.NAME,
-        false,
-        true,
-        false,
-        isTurboModule
+        canOverrideExistingModule = false,
+        needsEagerInit = true,
+        isCxxModule = false,
+        isTurboModule = true
       )
 
       mapOf(
