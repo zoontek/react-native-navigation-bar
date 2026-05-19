@@ -6,13 +6,19 @@ import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.util.TypedValue
+import android.view.Window
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.facebook.common.logging.FLog
 import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.common.ReactConstants
+import com.facebook.react.interfaces.ExtraWindowEventListener
 import com.facebook.react.module.annotations.ReactModule
+import java.util.Collections
+import java.util.WeakHashMap
 
 // The light scrim color used in the platform API 29+
 // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/com/android/internal/policy/DecorView.java;drc=6ef0f022c333385dba2c294e35b8de544455bf19;l=142
@@ -23,15 +29,46 @@ internal val LightNavigationBarColor = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
 // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/res/remote_color_resources_res/values/colors.xml;l=67
 internal val DarkNavigationBarColor = Color.argb(0x80, 0x1b, 0x1b, 0x1b)
 
+@Suppress("DEPRECATION")
+internal fun Window.setNavigationBarStyle(light: Boolean, transparent: Boolean) {
+  if (VERSION.SDK_INT >= VERSION_CODES.Q) {
+    isNavigationBarContrastEnforced = !transparent
+  }
+
+  navigationBarColor =
+    when {
+      transparent -> Color.TRANSPARENT
+      light -> LightNavigationBarColor
+      else -> DarkNavigationBarColor
+    }
+
+  val controller = WindowInsetsControllerCompat(this, decorView)
+  controller.isAppearanceLightNavigationBars = light
+}
+
+internal fun Window.setNavigationBarHidden(hidden: Boolean) {
+  WindowInsetsControllerCompat(this, decorView).apply {
+    systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
+    when (hidden) {
+      true -> hide(WindowInsetsCompat.Type.navigationBars())
+      else -> show(WindowInsetsCompat.Type.navigationBars())
+    }
+  }
+}
+
 @ReactModule(name = NativeNavigationBarModuleSpec.NAME)
 class NavigationBarModule(reactContext: ReactApplicationContext) :
-  NativeNavigationBarModuleSpec(reactContext), LifecycleEventListener {
+  NativeNavigationBarModuleSpec(reactContext), ExtraWindowEventListener, LifecycleEventListener {
 
   init {
+    reactApplicationContext.addExtraWindowEventListener(this)
     reactApplicationContext.addLifecycleEventListener(this)
   }
 
   override fun invalidate() {
+    super.invalidate()
+    reactApplicationContext.removeExtraWindowEventListener(this)
     reactApplicationContext.removeLifecycleEventListener(this)
   }
 
@@ -57,32 +94,19 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
     return !(resolveBoolAttribute(activity, resId) ?: false)
   }
 
-  @Suppress("DEPRECATION")
   override fun setStyle(style: String) {
     val activity =
       reactApplicationContext.currentActivity
         ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
 
-    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+    // isAppearanceLightNavigationBars is not available below Android O
+    if (VERSION.SDK_INT < VERSION_CODES.O) {
+      val light = style == "dark-content" // dark-content = light background
+      val transparent = isTransparent(activity)
+
       activity.runOnUiThread {
-        val light = style == "dark-content" // dark-content = light background
-        val transparent = isTransparent(activity)
-        val window = activity.window
-
-        if (VERSION.SDK_INT >= VERSION_CODES.Q) {
-          window.isNavigationBarContrastEnforced = !transparent
-        }
-
-        window.navigationBarColor =
-          when {
-            transparent -> Color.TRANSPARENT
-            light -> LightNavigationBarColor
-            else -> DarkNavigationBarColor
-          }
-
-        WindowInsetsControllerCompat(window, window.decorView).run {
-          isAppearanceLightNavigationBars = light
-        }
+        activity.window.setNavigationBarStyle(light, transparent)
+        extraWindows.forEach { it.setNavigationBarStyle(light, transparent) }
       }
     }
   }
@@ -93,17 +117,32 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
         ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
 
     activity.runOnUiThread {
-      val window = activity.window
-
-      WindowInsetsControllerCompat(window, window.decorView).run {
-        systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-        when (hidden) {
-          true -> hide(WindowInsetsCompat.Type.navigationBars())
-          else -> show(WindowInsetsCompat.Type.navigationBars())
-        }
-      }
+      activity.window.setNavigationBarHidden(hidden)
+      extraWindows.forEach { it.setNavigationBarHidden(hidden) }
     }
+  }
+
+  override fun onExtraWindowCreate(window: Window) {
+    extraWindows.add(window)
+
+    val activity =
+      reactApplicationContext.currentActivity
+        ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
+
+    val transparent = isTransparent(activity)
+
+    activity.window?.let { activityWindow ->
+      val controller = WindowCompat.getInsetsController(activityWindow, activityWindow.decorView)
+      val insets = ViewCompat.getRootWindowInsets(activityWindow.decorView)
+      val visible = insets?.isVisible(WindowInsetsCompat.Type.navigationBars()) ?: true
+
+      window.setNavigationBarStyle(controller.isAppearanceLightNavigationBars, transparent)
+      window.setNavigationBarHidden(!visible)
+    }
+  }
+
+  override fun onExtraWindowDestroy(window: Window) {
+    extraWindows.remove(window)
   }
 
   override fun onHostResume() {
@@ -131,6 +170,8 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
   override fun onHostDestroy() {}
 
   companion object {
+    private val extraWindows = Collections.newSetFromMap<Window>(WeakHashMap())
+
     private const val NO_ACTIVITY_ERROR =
       "${NAME}: Ignored navigation bar change, current activity is null."
   }

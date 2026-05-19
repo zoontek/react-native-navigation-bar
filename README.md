@@ -82,7 +82,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "plugins": [
       [
         "@zoontek/react-native-navigation-bar",
-        { "android": { "enforceNavigationBarContrast": true } }
+        { "android": { "enforceNavigationBarContrast": false } }
       ]
     ]
   }
