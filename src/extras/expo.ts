@@ -16,21 +16,22 @@ const plugin: ConfigPlugin<NavigationBarPluginConfig | undefined> = (
   config,
   props = {},
 ) => {
-  const names = new Set([
-    "android:enforceNavigationBarContrast",
-    "enforceNavigationBarContrastFallback",
-  ]);
+  const name = "enforceNavigationBarContrast";
 
   return withAndroidStyles(config, (config) => {
     const { android = {} } = props;
-    const { enforceNavigationBarContrast = false } = android;
+    const { enforceNavigationBarContrast } = android;
 
     config.modResults.resources.style = config.modResults.resources.style?.map(
       (style): typeof style => {
         if (style.$.name === "AppTheme") {
-          style.item = style.item.filter((item) => !names.has(item.$.name));
+          style.item = style.item.filter((item) => item.$.name !== name);
 
-          for (const name of names) {
+          if (enforceNavigationBarContrast != null) {
+            style.item = style.item.filter(
+              (item) => item.$.name !== `android:${name}`,
+            );
+
             style.item.push({
               $: { name },
               _: String(enforceNavigationBarContrast),
