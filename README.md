@@ -25,7 +25,7 @@ $ yarn add @zoontek/react-native-navigation-bar
 ```
 
 > [!IMPORTANT]
-> This library requires React Native 0.81+ or Expo 54+ with edge-to-edge enabled. To turn it on, set `edgeToEdgeEnabled` to `true` in your project's `gradle.properties` file (this step is not required for Expo, as it is enabled by default).
+> This library requires React Native 0.86+ with edge-to-edge enabled. To turn it on, set `edgeToEdgeEnabled` to `true` in your project's `gradle.properties` file (this step is not required for Expo, as it is enabled by default).
 
 ```ruby
 edgeToEdgeEnabled=true # 👈 set this to true
@@ -35,7 +35,7 @@ edgeToEdgeEnabled=true # 👈 set this to true
 
 ### Transparency
 
-Compared to [`react-native-edge-to-edge`](https://github.com/zoontek/react-native-edge-to-edge), this library adopts React Native [`StatusBar`](https://reactnative.dev/docs/statusbar) API and its defaults: the navigation bar is transparent with a `light-content` bar style. To enforce a contrasting (semi-opaque) button navigation bar, set the `enforceNavigationBarContrast` option to `true`.
+Compared to [`react-native-edge-to-edge`](https://github.com/zoontek/react-native-edge-to-edge), this library adopts React Native [`StatusBar`](https://reactnative.dev/docs/statusbar) API and its defaults: the navigation bar is transparent. To enforce a contrasting (semi-opaque) button navigation bar, set the `enforceNavigationBarContrast` option to `true`.
 
 #### React Native
 

@@ -30,10 +30,7 @@ internal val LightNavigationBarColor = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
 internal val DarkNavigationBarColor = Color.argb(0x80, 0x1b, 0x1b, 0x1b)
 
 @Suppress("DEPRECATION")
-internal fun Window.setNavigationBarStyle(
-  light: Boolean,
-  transparent: Boolean,
-) {
+internal fun Window.setNavigationBarStyle(light: Boolean, transparent: Boolean) {
   if (VERSION.SDK_INT < VERSION_CODES.O) {
     return // isAppearanceLightNavigationBars is not available below Android O
   }
@@ -94,13 +91,8 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
     activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK !=
       Configuration.UI_MODE_NIGHT_YES
 
-  private fun isTransparent(activity: Activity): Boolean {
-    val resId =
-      if (VERSION.SDK_INT >= VERSION_CODES.Q) android.R.attr.enforceNavigationBarContrast
-      else R.attr.enforceNavigationBarContrastFallback
-
-    return !(resolveBoolAttribute(activity, resId) ?: false)
-  }
+  private fun isTransparent(activity: Activity): Boolean =
+    resolveBoolAttribute(activity, R.attr.enforceNavigationBarContrast) ?: true
 
   override fun setStyle(style: String) {
     val activity =
@@ -134,12 +126,12 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
       reactApplicationContext.currentActivity
         ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
 
-    val transparent = isTransparent(activity)
-
     activity.window?.let { activityWindow ->
       val controller = WindowCompat.getInsetsController(activityWindow, activityWindow.decorView)
       val insets = ViewCompat.getRootWindowInsets(activityWindow.decorView)
+
       val light = controller.isAppearanceLightNavigationBars
+      val transparent = isTransparent(activity)
       val visible = insets?.isVisible(WindowInsetsCompat.Type.navigationBars()) ?: true
 
       window.setNavigationBarStyle(light, transparent)
