@@ -30,19 +30,28 @@ internal val LightNavigationBarColor = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
 internal val DarkNavigationBarColor = Color.argb(0x80, 0x1b, 0x1b, 0x1b)
 
 @Suppress("DEPRECATION")
-internal fun Window.setNavigationBarStyle(light: Boolean, transparent: Boolean) {
-  if (VERSION.SDK_INT >= VERSION_CODES.Q) {
-    isNavigationBarContrastEnforced = !transparent
+internal fun Window.setNavigationBarStyle(
+  light: Boolean,
+  transparent: Boolean,
+) {
+  if (VERSION.SDK_INT < VERSION_CODES.O) {
+    return // isAppearanceLightNavigationBars is not available below Android O
   }
 
-  navigationBarColor =
-    when {
-      transparent -> Color.TRANSPARENT
-      light -> LightNavigationBarColor
-      else -> DarkNavigationBarColor
-    }
+  if (VERSION.SDK_INT >= VERSION_CODES.Q) {
+    isNavigationBarContrastEnforced = !transparent
+  } else {
+    navigationBarColor =
+      when {
+        transparent -> Color.TRANSPARENT
+        light -> LightNavigationBarColor
+        else -> DarkNavigationBarColor
+      }
+  }
 
-  WindowInsetsControllerCompat(this, decorView).apply { isAppearanceLightNavigationBars = light }
+  WindowInsetsControllerCompat(this, decorView).apply {
+    isAppearanceLightNavigationBars = light
+  }
 }
 
 internal fun Window.setNavigationBarHidden(hidden: Boolean) {
@@ -98,15 +107,12 @@ class NavigationBarModule(reactContext: ReactApplicationContext) :
       reactApplicationContext.currentActivity
         ?: return FLog.w(ReactConstants.TAG, NO_ACTIVITY_ERROR)
 
-    // isAppearanceLightNavigationBars is not available below Android O
-    if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      val light = style == "dark-content" // dark-content = light background
-      val transparent = isTransparent(activity)
+    val light = style == "dark-content" // dark-content = light background
+    val transparent = isTransparent(activity)
 
-      activity.runOnUiThread {
-        activity.window.setNavigationBarStyle(light, transparent)
-        extraWindows.forEach { it.setNavigationBarStyle(light, transparent) }
-      }
+    activity.runOnUiThread {
+      activity.window.setNavigationBarStyle(light, transparent)
+      extraWindows.forEach { it.setNavigationBarStyle(light, transparent) }
     }
   }
 
