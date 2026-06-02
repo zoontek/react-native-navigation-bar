@@ -65,7 +65,7 @@ import navigationBar from "@zoontek/react-native-navigation-bar/expo"; // use `r
 export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     navigationBar({
-      android: { enforceNavigationBarContrast: true },
+      enforceContrast: true,
     }),
   ],
 });
@@ -80,10 +80,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 {
   "expo": {
     "plugins": [
-      [
-        "@zoontek/react-native-navigation-bar",
-        { "android": { "enforceNavigationBarContrast": false } }
-      ]
+      ["@zoontek/react-native-navigation-bar", { "enforceContrast": false }]
     ]
   }
 }
@@ -164,10 +161,6 @@ NavigationBar.setHidden(style /*: boolean */);
 ```
 
 ## Troubleshooting 🤔
-
-#### The bar style blinks at app start
-
-Since the navigation bar is set at runtime rather than through themes, you may notice a brief style change at startup. This can be avoided by [adding a splash screen](https://github.com/zoontek/react-native-bootsplash).
 
 #### The bar style behavior is erratic
 

@@ -7,36 +7,31 @@ import {
 const PACKAGE_NAME = "@zoontek/react-native-navigation-bar";
 
 type NavigationBarPluginConfig = {
-  android?: {
-    enforceNavigationBarContrast?: boolean;
-  };
+  enforceContrast: boolean;
 };
 
 const plugin: ConfigPlugin<NavigationBarPluginConfig | undefined> = (
   config,
-  props = {},
+  props = { enforceContrast: false },
 ) => {
-  const name = "enforceNavigationBarContrast";
+  const androidAttrName = "android:enforceNavigationBarContrast";
+  const libraryAttrName = "enforceNavigationBarContrast";
+
+  const names = new Set([androidAttrName, libraryAttrName]);
 
   return withAndroidStyles(config, (config) => {
-    const { android = {} } = props;
-    const { enforceNavigationBarContrast } = android;
+    const { enforceContrast = false } = props;
+    const _ = String(enforceContrast);
 
     config.modResults.resources.style = config.modResults.resources.style?.map(
       (style): typeof style => {
         if (style.$.name === "AppTheme") {
-          style.item = style.item.filter((item) => item.$.name !== name);
+          style.item = style.item.filter((item) => !names.has(item.$.name));
 
-          if (enforceNavigationBarContrast != null) {
-            style.item = style.item.filter(
-              (item) => item.$.name !== `android:${name}`,
-            );
-
-            style.item.push({
-              $: { name },
-              _: String(enforceNavigationBarContrast),
-            });
-          }
+          style.item.push(
+            { $: { name: androidAttrName, "tools:targetApi": "29" }, _ },
+            { $: { name: libraryAttrName }, _ },
+          );
         }
 
         return style;
