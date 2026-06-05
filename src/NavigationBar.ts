@@ -9,9 +9,7 @@ const defaultProps: Required<NavigationBarProps> = {
 };
 
 // Merges the entries stack
-function mergeEntriesStack(
-  entriesStack: NavigationBarProps[],
-): NavigationBarProps {
+function mergeEntriesStack(entriesStack: NavigationBarProps[]) {
   return entriesStack.reduce<{
     barStyle: NavigationBarStyle | undefined;
     hidden: boolean | undefined;
