@@ -65,7 +65,7 @@ import navigationBar from "@zoontek/react-native-navigation-bar/expo"; // use `r
 export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     navigationBar({
-      enforceContrast: true,
+      android: { enforceNavigationBarContrast: true },
     }),
   ],
 });
@@ -80,7 +80,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 {
   "expo": {
     "plugins": [
-      ["@zoontek/react-native-navigation-bar", { "enforceContrast": false }]
+      [
+        "@zoontek/react-native-navigation-bar",
+        { "android": { "enforceNavigationBarContrast": true } }
+      ]
     ]
   }
 }

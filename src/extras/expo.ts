@@ -7,20 +7,23 @@ import {
 const PACKAGE_NAME = "@zoontek/react-native-navigation-bar";
 
 type NavigationBarPluginConfig = {
-  enforceContrast: boolean;
+  android?: {
+    enforceNavigationBarContrast?: boolean;
+  };
 };
 
 const plugin: ConfigPlugin<NavigationBarPluginConfig | undefined> = (
   config,
-  props = { enforceContrast: false },
+  props = {},
 ) => {
   const androidAttributeName = "android:enforceNavigationBarContrast";
   const libraryAttributeName = "enforceNavigationBarContrast";
   const attributeNames = new Set([androidAttributeName, libraryAttributeName]);
 
   return withAndroidStyles(config, (config) => {
-    const { enforceContrast = false } = props;
-    const _ = String(enforceContrast);
+    const { android = {} } = props;
+    const { enforceNavigationBarContrast = false } = android;
+    const _ = String(enforceNavigationBarContrast);
 
     config.modResults.resources.style = config.modResults.resources.style?.map(
       (style): typeof style => {
