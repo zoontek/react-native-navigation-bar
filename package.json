@@ -1,6 +1,6 @@
 {
   "name": "@zoontek/react-native-navigation-bar",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "React Native StatusBar long-lost twin. A component to control your Android app's navigation bar.",
   "author": "Mathieu Acthernoene <zoontek@gmail.com>",
@@ -98,11 +98,11 @@
     "@expo/config-plugins": "*",
     "@types/node": "^22.19.19",
     "@types/react": "^19.2.0",
-    "prettier": "^3.8.3",
+    "prettier": "^3.8.4",
     "prettier-plugin-organize-imports": "^4.3.0",
     "react": "19.2.3",
-    "react-native": "0.86.0-rc.3",
-    "react-native-builder-bob": "^0.41.0",
+    "react-native": "0.86.0",
+    "react-native-builder-bob": "^0.42.1",
     "typescript": "^6.0.3"
   },
   "codegenConfig": {
