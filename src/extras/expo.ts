@@ -16,27 +16,26 @@ const plugin: ConfigPlugin<NavigationBarPluginConfig | undefined> = (
   config,
   props = {},
 ) => {
-  const name = "enforceNavigationBarContrast";
+  const androidAttributeName = "android:enforceNavigationBarContrast";
+  const libraryAttributeName = "enforceNavigationBarContrast";
+  const attributeNames = new Set([androidAttributeName, libraryAttributeName]);
 
   return withAndroidStyles(config, (config) => {
     const { android = {} } = props;
-    const { enforceNavigationBarContrast } = android;
+    const { enforceNavigationBarContrast = false } = android;
+    const _ = String(enforceNavigationBarContrast);
 
     config.modResults.resources.style = config.modResults.resources.style?.map(
       (style): typeof style => {
         if (style.$.name === "AppTheme") {
-          style.item = style.item.filter((item) => item.$.name !== name);
+          style.item = style.item.filter(
+            (item) => !attributeNames.has(item.$.name),
+          );
 
-          if (enforceNavigationBarContrast != null) {
-            style.item = style.item.filter(
-              (item) => item.$.name !== `android:${name}`,
-            );
-
-            style.item.push({
-              $: { name },
-              _: String(enforceNavigationBarContrast),
-            });
-          }
+          style.item.push(
+            { $: { name: androidAttributeName, "tools:targetApi": "29" }, _ },
+            { $: { name: libraryAttributeName }, _ },
+          );
         }
 
         return style;
