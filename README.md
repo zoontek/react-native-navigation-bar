@@ -25,7 +25,7 @@ $ yarn add @zoontek/react-native-navigation-bar
 ```
 
 > [!IMPORTANT]
-> This library requires React Native 0.86+ with edge-to-edge enabled. To turn it on, set `edgeToEdgeEnabled` to `true` in your project's `gradle.properties` file (this step is not required for Expo, as it is enabled by default).
+> This library requires React Native 0.86+ with edge-to-edge enabled. To turn it on, set `edgeToEdgeEnabled` to `true` in your project's `gradle.properties` file.
 
 ```ruby
 edgeToEdgeEnabled=true # 👈 set this to true
