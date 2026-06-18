@@ -39,14 +39,16 @@ Compared to [`react-native-edge-to-edge`](https://github.com/zoontek/react-nativ
 
 #### React Native
 
-Edit your `android/app/src/main/res/values/styles.xml` file to add the `enforceNavigationBarContrast` attribute:
+Add both `enforceNavigationBarContrast` attributes to your `android/app/src/main/res/values/styles.xml` file:
 
 ```xml
-<resources>
+<!-- add xmlns:tools on the resources tag if it isn't already there -->
+<resources xmlns:tools="http://schemas.android.com/tools">
   <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
     <!-- … -->
-    <!-- enforce a contrasting navigation bar background (optional) -->
-    <item name="enforceNavigationBarContrast">true</item>
+    <!-- keep both in sync: false for a transparent navigation bar, true for a contrasting one -->
+    <item name="android:enforceNavigationBarContrast" tools:targetApi="29">false</item>
+    <item name="enforceNavigationBarContrast">false</item>
   </style>
 </resources>
 ```
