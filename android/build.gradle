@@ -12,8 +12,16 @@ buildscript {
     }
 }
 
+def isKotlinPluginMissing() {
+    return project.extensions.findByName("kotlin") == null
+}
+
 apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
+
+if (isKotlinPluginMissing()) {
+    apply plugin: "kotlin-android"
+}
+
 apply plugin: "com.facebook.react"
 
 android {
