@@ -98,11 +98,11 @@
     "@expo/config-plugins": "*",
     "@types/node": "^22.19.19",
     "@types/react": "^19.2.0",
-    "prettier": "^3.8.4",
+    "prettier": "^3.9.6",
     "prettier-plugin-organize-imports": "^4.3.0",
     "react": "19.2.3",
-    "react-native": "0.87.0",
-    "react-native-builder-bob": "^0.42.1",
+    "react-native": "0.88.0-rc.0",
+    "react-native-builder-bob": "^0.43.1",
     "typescript": "^6.0.3"
   },
   "codegenConfig": {
