@@ -9,19 +9,15 @@ const defaultProps: Required<NavigationBarProps> = {
 };
 
 // Merges the entries stack
-function mergeEntriesStack(entriesStack: NavigationBarProps[]) {
-  return entriesStack.reduce<{
-    barStyle: NavigationBarStyle | undefined;
-    hidden: boolean | undefined;
-  }>(
+function mergeEntriesStack(
+  entriesStack: NavigationBarProps[],
+): Required<NavigationBarProps> {
+  return entriesStack.reduce<Required<NavigationBarProps>>(
     (prev, cur) => ({
       barStyle: cur.barStyle ?? prev.barStyle,
       hidden: cur.hidden ?? prev.hidden,
     }),
-    {
-      barStyle: undefined,
-      hidden: undefined,
-    },
+    { ...defaultProps },
   );
 }
 
@@ -47,6 +43,20 @@ const currentValues: {
   hidden: undefined,
 };
 
+function applyBarStyle(style: NavigationBarStyle) {
+  if (style !== currentValues.barStyle) {
+    currentValues.barStyle = style;
+    NativeModule?.setStyle(style ?? "default");
+  }
+}
+
+function applyHidden(hidden: boolean) {
+  if (hidden !== currentValues.hidden) {
+    currentValues.hidden = hidden;
+    NativeModule?.setHidden(hidden);
+  }
+}
+
 /**
  * Set the navigation bar style.
  *
@@ -54,11 +64,7 @@ const currentValues: {
  */
 function setBarStyle(style: NavigationBarStyle) {
   defaultProps.barStyle = style;
-
-  if (style !== currentValues.barStyle) {
-    currentValues.barStyle = style;
-    NativeModule?.setStyle(style ?? "default");
-  }
+  applyBarStyle(style);
 }
 
 /**
@@ -68,11 +74,7 @@ function setBarStyle(style: NavigationBarStyle) {
  */
 function setHidden(hidden: boolean) {
   defaultProps.hidden = hidden;
-
-  if (hidden !== currentValues.hidden) {
-    currentValues.hidden = hidden;
-    NativeModule?.setHidden(hidden);
-  }
+  applyHidden(hidden);
 }
 
 // Updates the native navigation bar with the entries from the stack
@@ -82,19 +84,10 @@ function updateEntriesStack() {
   }
 
   updateImmediate = setImmediate(() => {
-    if (entriesStack.length === 0) {
-      setBarStyle(defaultProps.barStyle);
-      setHidden(defaultProps.hidden);
-    } else {
-      const { barStyle, hidden } = mergeEntriesStack(entriesStack);
+    const { barStyle, hidden } = mergeEntriesStack(entriesStack);
 
-      if (barStyle != null) {
-        setBarStyle(barStyle);
-      }
-      if (hidden != null) {
-        setHidden(hidden);
-      }
-    }
+    applyBarStyle(barStyle);
+    applyHidden(hidden);
   });
 }
 
